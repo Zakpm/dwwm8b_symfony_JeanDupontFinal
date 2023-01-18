@@ -1,0 +1,20 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Modifier la catégorie numéro : {{ category.id }}{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Modifier cette catégorie</h1>
+
+    <div class="container mt-5">
+        {{ form_start(form) }}
+            <div class="mb-3">
+                <label>Nom</label>
+                <div class="text-danger">{{ form_errors(form.name) }}</div>
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" formnovalidate />
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

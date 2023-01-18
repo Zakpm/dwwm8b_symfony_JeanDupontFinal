@@ -1,0 +1,19 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Modifier le tag numéro : {{ tag.id }}{% endblock %}
+
+{% block main %}
+    <h1 class="display-5 text-center my-3">Modifier ce tag</h1>
+
+    <div class="container mt-5">
+        {{ form_start(form) }}
+            <div class="mb-3">
+                <label>Nom</label>
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="Modifier" />
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

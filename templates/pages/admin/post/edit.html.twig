@@ -1,0 +1,61 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Modifier cet article{% endblock %}
+
+{# Tiny #}
+{% block tiny %}
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#post_form_content'
+        });
+    </script>
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-43 display-5">Modifier cet article</h1>
+
+    <div class="container mt-5">
+        {{ form_start(form) }}
+            <div class="mb-3">
+                <label>Titre</label>
+                <div class="text-danger">{{ form_errors(form.title) }}</div>
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <label>Catégorie</label>
+                <div class="text-danger">{{ form_errors(form.category) }}</div>
+                {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <label>Tags</label>
+                <div class="text-danger">{{ form_errors(form.tags) }}</div>
+                {{ form_widget(form.tags, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="text-danger">{{ form_errors(form.imageFile) }}</div>
+                    <div class="col-md-6 text-center">
+                        {% if post.image %}
+                            <img  src="{{ vich_uploader_asset(post, 'imageFile')  | imagine_filter('admin_post_image_thumb') }}" alt="{{ post.title }}">    
+                        {% else %}
+                            <img height="80" width="100" src="{{ asset('images/static/admin/post/default-post-image.jpg') }}" />
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="mb-2">Choisissez une autre image</label>
+                        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Contenu</label>
+                <div class="text-danger">{{ form_errors(form.content) }}</div>
+                {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 10}}) }}
+            </div>
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="Sauvegarder" formnovalidate />
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

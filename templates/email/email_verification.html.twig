@@ -1,0 +1,7 @@
+<h2>Vérification de votre compte sur le site de Jean Dupont</h2>
+
+<p>Veuillez cliquer sur le lien ci-dessous pour vérifier votre compte</p>
+
+<a href="{{ absolute_url(path('visitor.registration.email_verif', {'id':user_id, 'token':token })) }}">Cliquez ici</a>
+
+<p>Vous devez vérifier votre compte avant le : {{ expires_at }}</p>

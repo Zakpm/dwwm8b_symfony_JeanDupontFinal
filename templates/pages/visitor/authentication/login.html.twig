@@ -1,0 +1,68 @@
+{% extends 'themes/base_visitor.html.twig' %}
+
+{% block title %}- Connexion{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <h1 class="text-center my-3 display-5">Connexion</h1>
+
+        <div class="row mt-5">
+            <div class="col-md-8 col-lg-6 bg-white shadow p-4 mx-auto">
+                {% if error %}
+                    <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                {% for message in app.flashes('warning') %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-error alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    </div>
+                    <div class="mb-3">
+                    {# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html #}
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="submit">Connexion</button>
+                    </div>
+                </form>
+
+                <div class="text-center my-3">
+                    <a href="{{ path('visitor.authentication.forgot_password.request') }}">Mot de passe oublié ?</a>    
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

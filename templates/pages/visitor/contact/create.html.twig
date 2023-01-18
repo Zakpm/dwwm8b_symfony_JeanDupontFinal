@@ -1,0 +1,70 @@
+{% extends "themes/base_visitor.html.twig" %}
+
+{% block title %}Contact{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Contact</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{{ asset('images/static/visitor/contact/contact.png') }}" class="img-fluid" />
+            </div>
+            <div class="col-md-9">
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div>
+                                <label>Prénom</label>
+                                <div class="text-danger">{{ form_errors(form.firstName) }}</div>
+                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div>
+                                <label>Nom</label>
+                                <div class="text-danger">{{ form_errors(form.lastName) }}</div>
+                                {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div>
+                                <label>Email</label>
+                                <div class="text-danger">{{ form_errors(form.email) }}</div>
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div>
+                                <label>Numéro de téléphone</label>
+                                <div class="text-danger">{{ form_errors(form.telephone) }}</div>
+                                {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div>
+                                <label>Message</label>
+                                <div class="text-danger">{{ form_errors(form.message) }}</div>
+                                {{ form_widget(form.message, {'attr': {'class': 'form-control', 'rows': 6}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-primary" formnovalidate />
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

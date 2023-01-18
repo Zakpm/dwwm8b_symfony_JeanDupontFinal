@@ -1,0 +1,50 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Nouvel article{% endblock %}
+
+{# Tiny #}
+{% block tiny %}
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#post_form_content'
+        });
+    </script>
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-43 display-5">Nouvel article</h1>
+
+    <div class="container mt-5">
+        {{ form_start(form) }}
+            <div class="mb-3">
+                <label>Titre</label>
+                <div class="text-danger">{{ form_errors(form.title) }}</div>
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <label>Catégorie</label>
+                <div class="text-danger">{{ form_errors(form.category) }}</div>
+                {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <label>Tags</label>
+                <div class="text-danger">{{ form_errors(form.tags) }}</div>
+                {{ form_widget(form.tags, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <label>Image</label>
+                <div class="text-danger">{{ form_errors(form.imageFile) }}</div>
+                {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                <label>Contenu</label>
+                <div class="text-danger">{{ form_errors(form.content) }}</div>
+                {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 10}}) }}
+            </div>
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="Sauvegarder" formnovalidate />
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

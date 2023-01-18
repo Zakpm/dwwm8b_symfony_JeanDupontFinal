@@ -1,0 +1,14 @@
+{% extends 'themes/base_visitor.html.twig' %}
+
+{% block title %}- En attente de la réinitialiation du mot de passe{% endblock %}
+
+{% block main %}
+
+    <div class="container mt-5">
+        <p>
+            Si un compte correspondant à votre adresse e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.
+            Le lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+        </p>
+        <p>Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam <a href="{{ path('visitor.authentication.forgot_password.request') }}">Réessayez encore</a>.</p>
+    </div>
+{% endblock %}

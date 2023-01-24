@@ -2,11 +2,14 @@
 
 namespace App\Controller\Visitor\Blog;
 
-use App\Entity\Category;
+use App\Entity\Tag;
 use App\Entity\Post;
+use App\Entity\Category;
 use App\Repository\TagRepository;
 use App\Repository\PostRepository;
 use App\Repository\CategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,14 +21,25 @@ class BlogController extends AbstractController
         CategoryRepository $categoryRepository,
         TagRepository $tagRepository,
         PostRepository $postRepository,
+        PaginatorInterface $paginator,
+        Request $request,
         ): Response
     {
+        
+     
         
         $categories = $categoryRepository->findAll();
         $tags = $tagRepository->findAll();
         $posts = $postRepository->findBy(['isPublished' => true]); 
+        
+        $posts_paginated = $paginator->paginate(
+            $posts, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            6 /*limit per page*/
+        );
 
-        return $this->render('pages/visitor/blog/index.html.twig', compact('categories', 'tags', 'posts'));
+
+        return $this->render('pages/visitor/blog/index.html.twig', compact('categories', 'tags', 'posts_paginated'));
     }
     
     
@@ -42,17 +56,49 @@ class BlogController extends AbstractController
         CategoryRepository $categoryRepository,
         TagRepository $tagRepository,
         PostRepository $postRepository,
+        PaginatorInterface $paginator,
+        Request $request
         ) : Response
-    {
-        $categories = $categoryRepository->findAll();
-        $tags       = $tagRepository->findAll();
-        $posts      = $postRepository->filterPostsByCategory($category->getId());
-
- 
-
-        return $this->render('pages/visitor/blog/index.html.twig', compact('categories', 'tags', 'posts'));
+        {
+            $categories = $categoryRepository->findAll();
+            $tags       = $tagRepository->findAll();
+            $posts      = $postRepository->filterPostsByCategory($category->getId());
+            
+            $posts_paginated = $paginator->paginate(
+                $posts, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                6 /*limit per page*/
+            );
+            
+            return $this->render('pages/visitor/blog/index.html.twig', compact('categories', 'tags', 'posts_paginated'));
+            
+        }
         
+    #[Route('/blog/posts/filter_by_tag/{id<\d+>}/{slug}', name: 'visitor.blog.posts.filter_by_tag')]
+    public function filterByTag(
+        Tag $tag,
+        CategoryRepository $categoryRepository,
+        TagRepository $tagRepository,
+        PostRepository $postRepository,
+        PaginatorInterface $paginator,
+        Request $request,
+        ) : Response 
+    {
+
+        $categories = $categoryRepository->findAll();
+        $tags       = $tagRepository->findall();
+        $posts      = $postRepository->filterPostsByTag($tag);
+
+        $posts_paginated = $paginator->paginate(
+            $posts, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            6 /*limit per page*/
+        );
+
+        return $this->render("pages/visitor/blog/index.html.twig", compact('categories', 'tags', 'posts_paginated'));
     }
+
+
 
 
 }

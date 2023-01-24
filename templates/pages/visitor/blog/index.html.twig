@@ -37,7 +37,7 @@
                             <li><a class="dropdown-item" href="#">Aucun</a></li>
                         {% else %}
                             {% for tag in tags %}
-                                <li><a class="dropdown-item" href="#">{{ tag.name }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path('visitor.blog.posts.filter_by_tag', {'id': tag.id, 'slug': tag.slug}) }}">{{ tag.name }}</a></li>
                             {% endfor %}
                         {% endif %}
                     </ul>
@@ -48,7 +48,7 @@
         {# Post row #}
         <div class="row mt-5">
             <div class="col-md-7 mx-auto">
-                {% for post in posts %}
+                {% for post in posts_paginated %}
                     <div class="post-card card mb-3 shadow">
                         <div class="row g-0">
                             <div class="col-md-4">
@@ -62,18 +62,25 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ post.title }}</h5>
                                     <p class="card-text">{{ post.content|striptags|u.truncate(70, '...')|raw }}</p>
+                                    <p>
+                                        {% for tag in post.tags %}
+                                        <a href="{{ path('visitor.blog.posts.filter_by_tag', {'id': tag.id, 'slug': tag.slug}) }}"><span class="badge text-bg-primary me-1">{{ tag.name }}</span></a>
+                                        {% endfor %}
+                                    </p>
                                     <p class="card-text"><small class="text-muted">Publié {{ post.publishedAt|ago }}</small></p>
                                     <p><a href="{{ path('visitor.blog.post.show', {'id': post.id, 'slug': post.slug}) }}" class="btn btn-primary">Lire l'article</a></p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
                 {% endfor %}
             </div>
         </div>
 
+        {# display navigation #}
+        <div class="d-flex justify-content-center align-content-center mt-4">
+            {{ knp_pagination_render(posts_paginated) }}
+        </div>
 
     </div>
 {% endblock %}

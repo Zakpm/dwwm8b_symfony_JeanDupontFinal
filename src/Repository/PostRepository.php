@@ -56,6 +56,20 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
+    public function filterPostsByTag($tag) : array
+    {
+        return $this->createQueryBuilder('p')
+                    ->join('p.tags', 't')
+                    ->select('p')
+                    ->where('t.id = :id')
+                    // ->addSelect('t')
+                    ->andWhere('p.isPublished = :val')
+                    ->setParameter('id', $tag->getId())
+                    ->setParameter('val', true)
+                    ->getQuery()
+                    ->getResult();
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
